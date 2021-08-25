@@ -1,0 +1,25 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+  <h1>Listing: {{ auc.Title }}</h1>
+  {% if auc.WinnerUsername == user.username %}
+  <h2>You are the winner!</h2>
+  {% else %}
+  <h3>Winner: {{auc.WinnerUsername}}</h3>
+  {% endif %}
+  <br>
+  <img src={{ auc.ImageURL }} height="300" alt={{auc.Title}} >
+  <h6>{{auc.Description}}</h6>
+  <h2>{{auc.StartingBid}}</h2>
+  <h4>Category: {{auc.Category}}</h4>
+  <h6>Created by: {{auc.username}}</h6>
+  <h6>Created at {{auc.date}}</h6>
+  <ul style="padding:30px;">
+    {% for comment in commentList %}
+      <hr>
+    <h6><li><p>{{comment.CommentText}}. &emsp; <small>{{comment.username}}</small></p></li></h6>
+      <hr>
+    {% endfor %}
+  </ul>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+  <h1>Listing: {{ auc.Title }}</h1>
+  {% if user.is_authenticated %}
+  {% if exists %}
+    <a href="{% url 'removeWatchlist' auc.id %}" style="color:red;">Remove from watchlist</a>
+  {% else %}
+    <a href="{% url 'addToWatchlist' auc.id %}">Add to watchlist</a>
+  {% endif %}
+  {% endif %}
+  <br>
+  <img src={{ auc.ImageURL }} height="300" alt={{auc.Title}} >
+  <h6>{{auc.Description}}</h6>
+  <h2>{{auc.StartingBid}}</h2>
+  <h6>{{ count }} bid(s) so far.</h6>
+  {% if user.is_authenticated %}
+  <div style="color:blue;">{{message}}</div>
+  <form action="{% url 'listing' auc.id %}" method="post">
+    {% csrf_token %}
+        <div class="form-group">
+            <input autofocus class="form-control" type="text" name="bid" placeholder="Bid e.g. {{ auc.StartingBid }}">
+        </div>
+        <input class="btn btn-primary" type="submit" value="Bid">
+  </form>
+  {% endif %}
+  <h4>Category: {{auc.Category}}</h4>
+  <h6>Created by: {{auc.username}}</h6>
+  <h6>Created at {{auc.date}}</h6>
+  <ul style="padding:30px;">
+    {% for comment in commentList %}
+      <hr>
+    <h6><li><p>{{comment.CommentText}}. &emsp; <small>{{comment.username}}</small></p></li></h6>
+      <hr>
+    {% endfor %}
+  </ul>
+  {% if user.is_authenticated %}
+  <form action="{% url 'comment' auc.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <input autofocus class="form-control" type="text" name="comment" placeholder="Comment">
+    </div>
+    <input class="btn btn-primary" type="submit" value="Comment">
+  </form>
+  {% endif %}
+  {% if auc.username == user.username %}
+    <br>
+    <h4><a href="{% url 'close' auc.id %}">Close Listing</a></h4>
+  {% endif %}
+
+{% endblock %}
