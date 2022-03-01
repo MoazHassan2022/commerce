@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h3>Watchlist</h3>
+  {% for auc in watchlist %}
+    <hr>
+        <a href="{% url 'listing' auc.id %}" style="text-decoration: none;"><div style="color:black;">
+        <ul class="nav">
+            <li class="nav-item"><img src={{ auc.ImageURL }} height="300" width="300" alt={{auc.Title}} ></li>
+            <li class="nav-item">
+                <h4>
+                    <ul>
+                        <li>{{auc.Title}}</li>
+                        <li>{{auc.Description}}</li>
+                        <li>Price: {{ auc.StartingBid }}</li>
+                        <li>Category: {{auc.Category}}</li>
+                        <br>
+                        <br>
+                        <br>
+                        <small>Created at {{auc.date}}</small>
+                    </ul>
+                </h4>
+            </li>
+        </ul>
+        </div></a>
+
+        <hr>
+
+    {% endfor %}
+{% endblock %}
